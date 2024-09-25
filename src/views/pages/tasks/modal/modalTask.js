@@ -117,8 +117,12 @@ const ModalTask = ({
             Close
           </CButton>
           <CButton color="primary" onClick={()=>{
+            if(typeModalTask==='add'){
 
-          }}>Save changes</CButton>
+            }else if(typeModalTask==='update'){
+
+            }
+          }}>{typeModalTask==='add'? 'Create': 'Save Changes'}</CButton>
         </CModalFooter>
       </CModal>
     </>
