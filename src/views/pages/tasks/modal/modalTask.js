@@ -24,7 +24,7 @@ import {
   CFormFeedback,
   CFormTextarea,
 } from '@coreui/react'
-import React, {useRef} from 'react'
+import React, {useRef, useEffect} from 'react'
 
 const ModalTask = ({
   modal,
@@ -38,6 +38,8 @@ const ModalTask = ({
   repeat,
   setRepeat,
   typeModalTask,
+  handleAdd,
+  handleUpdate,
 })=>{
 
   //NOTE - PROPS
@@ -52,11 +54,17 @@ const ModalTask = ({
     // setValidated(true)
   }
 
+  useEffect(() => {
+    console.log(repeat)
+    return () => {
+
+    };
+  }, [title, repeat]);
 
 
   return (
     <>
-      <CModal visible={modal} onClose={toggleModal}>
+      <CModal visible={modal}>
         <CModalHeader>
           <CModalTitle>{typeModalTask === 'add' ? 'Add Task' : 'Edit Task'}</CModalTitle>
         </CModalHeader>
@@ -70,6 +78,8 @@ const ModalTask = ({
                 // feedback="Looks good!"
                 // defaultValue="name@surname.com"
                 required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </CCol>
             <CCol md={12}>
@@ -77,10 +87,8 @@ const ModalTask = ({
                 type="text-area"
                 id="fl-description"
                 label="Description"
-                // feedback="Looks good!"
-                // defaultValue="name@surname.com"
-                // required
-                // row={8}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </CCol>
             <CCol md={12}>
@@ -88,26 +96,25 @@ const ModalTask = ({
                 type="date"
                 id="fl-due"
                 label="Due Date"
-                // feedback="Please provide a valid city."
-                // invalid
-                // required
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
               />
             </CCol>
             <CCol md={12}>
               <CFormSelect
                 id="validationServer04"
                 label="State"
-                // feedback="Please provide a valid city."
-                // invalid
                 multiple
+                // value={repeat}
+                onChange={(e) => setRepeat(Array.from(e.target.selectedOptions, (option) => option.value))}
               >
-                <option>Sunday</option>
-                <option>Monday</option>
-                <option>Tuesday</option>
-                <option>Wednesday</option>
-                <option>Thursday</option>
-                <option>Friday</option>
-                <option>Saturday</option>
+                <option value="Sunday" selected={repeat.includes('Sunday')}>Sunday</option>
+                <option value="Monday" selected={repeat.includes('Monday')}>Monday</option>
+                <option value="Tuesday" selected={repeat.includes('Tuesday')}>Tuesday</option>
+                <option value="Wednesday" selected={repeat.includes('Wednesday')}>Wednesday</option>
+                <option value="Thursday" selected={repeat.includes('Thursday')}>Thursday</option>
+                <option value="Friday" selected={repeat.includes('Friday')}>Friday</option>
+                <option value="Saturday" selected={repeat.includes('Saturday')}>Saturday</option>
               </CFormSelect>
             </CCol>
           </CRow>
@@ -118,9 +125,9 @@ const ModalTask = ({
           </CButton>
           <CButton color="primary" onClick={()=>{
             if(typeModalTask==='add'){
-
+              handleAdd()
             }else if(typeModalTask==='update'){
-
+              handleUpdate()
             }
           }}>{typeModalTask==='add'? 'Create': 'Save Changes'}</CButton>
         </CModalFooter>
